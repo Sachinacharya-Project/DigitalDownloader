@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/612f542d54.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Allan&family=Anton&family=Bebas+Neue&family=Courgette&family=Imbue&family=Kaushan+Script&family=Lobster&family=Nova+Square&family=Oswald:wght@300;400&family=PT+Sans+Narrow&family=Pathway+Gothic+One&family=Poppins&family=Potta+One&family=Righteous&family=Roboto:wght@300;400&family=Squada+One&family=Teko:wght@300;400&family=Trade+Winds&family=Yanone+Kaffeesatz:wght@400;500&family=Yellowtail&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>Thumbnail Downloader</title>
+</head>
+<body>
+    <form action="./downloader.php" method="post">
+        <div class="container">
+            <h1>Download Photos from URL</h1>
+            <div class="url_field">
+                <input type="text" id="urlField" class="urlField" placeholder="Enter URL of Youtube Video or Image" autocomplete="ytdoff" value='' required>
+                <input type="text" name='imgUrl' class="urlField" hidden>
+            </div>
+            <div class="filename_bar">
+                <input type="text" id="filename" name='filename' class="filename" placeholder="Filename" autocomplete="ytdoff" value='Thumbnail' required>
+            </div>
+            <div class="imgDisplay">
+                <img src="" alt="Thumbnail URL loading">
+                <span class="active">Your Image will be displayed here once you paste your url</span>
+            </div>
+            <div class="download_btn">
+                <button class="downloadBtn" title='URL field must be valid' disabled>Download Image</button>
+            </div>
+        </div>
+    </form>
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="./script.js"></script>
+</body>
+</html>
