@@ -234,26 +234,27 @@ def ytdownload(video_url, vformat, **kargs):
                 print(e)
                 return False
 def main():
-    parsers = argparse.ArgumentParser()
+    parsers = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter)
     parsers.add_argument('video_url', help="""
-    Requires
+    (Required)
         URL of YouTube Video to be download.
         It may either be Title of video or URL of single video or playlist of video
     """)
     parsers.add_argument('vformat', help="""
-    Requires
+    (Required)
         it a format in which video is to be downloaded
             'audio' for Music and 'video' for Videos
     """)
     parsers.add_argument('--path', help="""
-    Optional
+    (Optional)
         It a path where video or audio is to be downlaoded
         Defaults:
             {}\\Music for Musics
             {}\\Videos for video
-        eg. --path=''
+        eg. --path='[YOUR PATH]'
     """.format(os.environ.get('USERPROFILE'), os.environ.get('USERPROFILE')))
     args = parsers.parse_args()
+    
     url = args.video_url
     form = args.vformat
     path = args.path
@@ -269,3 +270,27 @@ def main():
         print('Error Occured! Cannot be downloaded')
 if __name__ == '__main__':
     main()
+    # parsers.add_argument('-h', action='store_true', dest="""
+    # Positional Arguments
+    #     video_url (required):
+    #         URL of YouTube Video to be download.
+    #         It may either be Title of video or URL of single video or playlist of video
+    #     vformat (required):
+    #         it a format in which video is to be downloaded
+    #         'audio' for Music and 'video' for Videos
+    # Optional Argument
+    #     path (Optional)
+    #         usage
+    #             --path [PATH]
+    #         Descriptions
+    #             It a path where video or audio is to be downlaoded
+    #             Defaults:
+    #                 {}\\Music for Musics
+    #                 {}\\Videos for video
+    #             eg. --path='[YOUR PATH]'
+    #     h, help (Optional)
+    #         usage
+    #             -h, --help
+    #         Descriptions:
+    #             Display Help Text
+    # """)
