@@ -21,12 +21,13 @@ ytdownload(video_url, video_format, [optional])
   1. **URL**: This a actual URL to YouTube Video or YouTube PlayList
   2. **name**: This is Title of Video or Common Name to the video, like 'Latest Python Packages reviews'. It cannot use title of PlayList but single video
 * **video_format:** This argument represent the format, you wanna download as. It is of Two Types 'video' or 'audio'
-* **optional**: This argument represent the path where files are to be stored. If passed, File will be stored in the given path
-like: C:\Users\username\Music which is a Default path for Audio and
-C:\Users\username\Video which is a Default path for Videos, incase path is not given.
-But if path is given, Video and Audio will be stored in given PATH inside Videos and Music Folder resp.
-  syntax:
-      ytdownload(video_url, video_format, path='C:\\Users\\')
+* **optional**: This argument represent the path where files are to be stored.  
+If passed, File will be stored in the given path like:  
+C:\Users\username\Music which is a Default path for Audio and  
+C:\Users\username\Video which is a Default path for Videos, incase path is not given.  
+But if path is given, Video and Audio will be stored in given PATH inside Videos and Music Folder resp.  
+  syntax:  
+      ytdownload(video_url, video_format, path='C:\\Users\\')  
 
 ## Example
 ````python
@@ -42,7 +43,4 @@ pyytdownloader -h
 ````python
 pyytdownloader video_url video_format --path PATH
 ````
-i{
-font-size: 12px;
-}
-<i>Here --path PATH is optional argument which specifies directory for downloaded files use -h for more details</i>
+**Here --path PATH is optional argument which specifies directory for downloaded files use -h for more details**
