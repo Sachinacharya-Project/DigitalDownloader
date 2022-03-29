@@ -8,7 +8,7 @@ This Small package download video and audio from YouTube with Given URL or Given
 pip install pytube
 pip install requests
 ````
-*or you can use requirements.txt file*
+***or** you can use requirements.txt file*
 ````cmd
 pip install -r requirements.txt
 ````
