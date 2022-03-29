@@ -34,9 +34,9 @@ data = ytdownload('falling by harry styles', 'video')
 # This 'data' returns True or False according to isdownloaded or not
 ````
 ## Command-line
-````cmd
+````python
 pyytdownloader -h :: Shows Helps
 ````
-````cmd
+````python
 pyytdownloader video_url video_format --path PATH :: --path PATH is optional and all arguments are the same as explained above
 ````
