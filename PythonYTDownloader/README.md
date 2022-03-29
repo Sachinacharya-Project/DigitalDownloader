@@ -19,7 +19,7 @@ pip install -r requirements.txt
 ytdownload(video_url, video_format, [optional])
 ````
 ## Parameters
-*"ytdownload" accepts 2 or 3 parameterz 2 are positional means mandatory parameters and last one is optional and this function returns True or False*.
+*__ytdownload__ accepts 2 or 3 parameterz 2 are positional means mandatory parameters and last one is optional and this function returns True or False*.
 
 * **video_url:**: This argument represent the actual URL of Video Or PlayList (i.e. YouTube URL). It is of two types
   1. **URL**: This a actual URL to YouTube Video or YouTube PlayList
