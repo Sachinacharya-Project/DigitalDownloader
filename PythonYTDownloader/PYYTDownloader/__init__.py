@@ -78,7 +78,7 @@ def __rename(direc):
         __on_complete()
     except FileExistsError:
         print("\nFile Already Exist")
-def __downloader(video_url, video_format, **kargs):
+def __downloader(video_url, vformat, **kargs):
     takenPath = kargs.get('path', '__default')
     if takenPath == '__default':
         takenPath = __os.environ.get('USERPROFILE')
@@ -95,11 +95,11 @@ def __downloader(video_url, video_format, **kargs):
             print(e)
             return False
     else:
-        video_format = video_format.lower()
-        if video_format != 'video' or video_format != 'audio':
+        vformat = vformat.lower()
+        if vformat != 'video' or vformat != 'audio':
             ytd = __YouTube(video_url, on_progress_callback=__on_progress)
             video_title = ytd.title
-            if video_format == 'audio':
+            if vformat == 'audio':
                 if kargs.get('type'):
                     result = __checkExistence(video_title, takenPath, get='playlist')
                 else:
@@ -125,14 +125,14 @@ def __downloader(video_url, video_format, **kargs):
             except VideoFormatError as e:
                 print(e)
                 return False
-def ytdownload(video_url, video_format, **kargs):
+def ytdownload(video_url, vformat, **kargs):
     """
     Download YouTube Video in Audio or Video Formate as Specified
     Takes Two Positional Arguments and one Optional Arguments
     1. video_url
         It is a Actual Video URL from YouTube. It may either be URL of
         Single Video or PlayList
-    2. video_format
+    2. vformat
         It is a Format in which download should be taken place
         'audio' for Audio and 'video' for Video
     3. path='PATH'
@@ -163,12 +163,12 @@ def ytdownload(video_url, video_format, **kargs):
     else:
         if video_src_type == 'name':
             url = __getVideoUrl(video_url)
-            if video_format == 'video':
+            if vformat == 'video':
                 if __downloader(url, 'video', path=path):
                     return True
                 else:
                     return False
-            elif video_format == 'audio':
+            elif vformat == 'audio':
                 if __downloader(url, 'audio', path=path):
                     return True
                 else:
@@ -180,12 +180,12 @@ def ytdownload(video_url, video_format, **kargs):
                     print(e)
                     return False
         elif video_src_type == 'single':
-            if video_format == 'video':
+            if vformat == 'video':
                 if __downloader(video_url, 'video', path=path):
                     return True
                 else:
                     return False
-            elif video_format == 'audio':
+            elif vformat == 'audio':
                 if __downloader(video_url, 'audio', path=path):
                     return True
                 else:
@@ -198,7 +198,7 @@ def ytdownload(video_url, video_format, **kargs):
                     return False
         elif video_src_type == 'playlist':
             get_url = __Playlist(video_url).video_urls
-            if video_format == 'video':
+            if vformat == 'video':
                 for item in get_url:
                     if __downloader(item, 'video', path=path):
                         pass
@@ -206,7 +206,7 @@ def ytdownload(video_url, video_format, **kargs):
                         return False
                 else:
                     return False
-            elif video_format == 'audio':
+            elif vformat == 'audio':
                 collection = []
                 for item in get_url:
                     result = __downloader(item, 'audio', path=path)

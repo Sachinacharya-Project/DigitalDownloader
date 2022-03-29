@@ -78,7 +78,7 @@ def rename(direc):
         on_complete()
     except FileExistsError:
         print("\nFile Already Exist")
-def downloader(video_url, video_format, **kargs):
+def downloader(video_url, vformat, **kargs):
     takenPath = kargs.get('path', '__default')
     if takenPath == '__default':
         takenPath = os.environ.get('USERPROFILE')
@@ -95,11 +95,11 @@ def downloader(video_url, video_format, **kargs):
             print(e)
             return False
     else:
-        video_format = video_format.lower()
-        if video_format != 'video' or video_format != 'audio':
+        vformat = vformat.lower()
+        if vformat != 'video' or vformat != 'audio':
             ytd = YouTube(video_url, on_progress_callback=on_progress)
             video_title = ytd.title
-            if video_format == 'audio':
+            if vformat == 'audio':
                 if kargs.get('type'):
                     result = checkExistence(video_title, takenPath, get='playlist')
                 else:
@@ -125,14 +125,14 @@ def downloader(video_url, video_format, **kargs):
             except VideoFormatError as e:
                 print(e)
                 return False
-def ytdownload(video_url, video_format, **kargs):
+def ytdownload(video_url, vformat, **kargs):
     """
     Download YouTube Video in Audio or Video Formate as Specified
     Takes Two Positional Arguments and one Optional Arguments
     1. video_url
         It is a Actual Video URL from YouTube. It may either be URL of
         Single Video or PlayList
-    2. video_format
+    2. vformat
         It is a Format in which download should be taken place
         'audio' for Audio and 'video' for Video
     3. path='PATH'
@@ -163,12 +163,12 @@ def ytdownload(video_url, video_format, **kargs):
     else:
         if video_src_type == 'name':
             url = getVideoUrl(video_url)
-            if video_format == 'video':
+            if vformat == 'video':
                 if downloader(url, 'video', path=path):
                     return True
                 else:
                     return False
-            elif video_format == 'audio':
+            elif vformat == 'audio':
                 if downloader(url, 'audio', path=path):
                     return True
                 else:
@@ -180,12 +180,12 @@ def ytdownload(video_url, video_format, **kargs):
                     print(e)
                     return False
         elif video_src_type == 'single':
-            if video_format == 'video':
+            if vformat == 'video':
                 if downloader(video_url, 'video', path=path):
                     return True
                 else:
                     return False
-            elif video_format == 'audio':
+            elif vformat == 'audio':
                 if downloader(video_url, 'audio', path=path):
                     return True
                 else:
@@ -198,7 +198,7 @@ def ytdownload(video_url, video_format, **kargs):
                     return False
         elif video_src_type == 'playlist':
             get_url = Playlist(video_url).video_urls
-            if video_format == 'video':
+            if vformat == 'video':
                 for item in get_url:
                     if downloader(item, 'video', path=path):
                         pass
@@ -206,7 +206,7 @@ def ytdownload(video_url, video_format, **kargs):
                         return False
                 else:
                     return False
-            elif video_format == 'audio':
+            elif vformat == 'audio':
                 collection = []
                 for item in get_url:
                     result = downloader(item, 'audio', path=path)
@@ -240,7 +240,7 @@ def main():
         URL of YouTube Video to be download.
         It may either be Title of video or URL of single video or playlist of video
     """)
-    parsers.add_argument('video_format', help="""
+    parsers.add_argument('vformat', help="""
     Requires
         it a format in which video is to be downloaded
             'audio' for Music and 'video' for Videos
@@ -255,7 +255,7 @@ def main():
     """.format(os.environ.get('USERPROFILE'), os.environ.get('USERPROFILE')))
     args = parsers.parse_args()
     url = args.video_url
-    form = args.video_format
+    form = args.vformat
     path = args.path
     if path == None:
         path = '__default'
