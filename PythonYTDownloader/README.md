@@ -8,6 +8,10 @@ This Small package download video and audio from YouTube with Given URL or Given
 pip install pytube
 pip install requests
 ````
+*or you can use requirements.txt file*
+````cmd
+pip install -r requirements.txt
+````
 ## USAGE
 *Method Used to Download Video(s) or Audio(s).*
 *First of all Import "ytdownload" from Package and use as given syntax:*
