@@ -35,8 +35,8 @@ data = ytdownload('falling by harry styles', 'video')
 ````
 ## Command-line
 ````cmd
-  pyytdownloader -h :: Shows Helps
+pyytdownloader -h :: Shows Helps
 ````
 ````cmd
-  pyytdownloader video_url video_format --path PATH :: --path PATH is optional and all arguments are the same as explained above
+pyytdownloader video_url video_format --path PATH :: --path PATH is optional and all arguments are the same as explained above
 ````
