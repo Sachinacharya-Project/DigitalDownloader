@@ -42,7 +42,7 @@ pyytdownloader -h
 ````python
 pyytdownloader video_url video_format --path PATH
 ````
-<i>Here --path PATH is optional argument which specifies directory for downloaded files use -h for more details</i>
-i{
+@i{
 font-size: 12px;
 }
+<i>Here --path PATH is optional argument which specifies directory for downloaded files use -h for more details</i>
