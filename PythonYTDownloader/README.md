@@ -48,4 +48,3 @@ pyytdownloader -h
 pyytdownloader video_url video_format --path PATH
 ````
 **Here --path PATH is optional argument which specifies directory for downloaded files use -h for more details**
-<p color="red">Sachin Acharya</p>
