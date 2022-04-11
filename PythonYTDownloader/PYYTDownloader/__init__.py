@@ -82,6 +82,7 @@ def __downloader(video_url, vformat, **kargs):
     takenPath = kargs.get('path', '__default')
     if takenPath == '__default':
         takenPath = __os.environ.get('USERPROFILE')
+    tempPath = kargs.get('tempPath')
     if video_url == '':
         try:
             raise VideoUrlException("Video URL cannot be Empty String")
@@ -100,25 +101,43 @@ def __downloader(video_url, vformat, **kargs):
             ytd = __YouTube(video_url, on_progress_callback=__on_progress)
             video_title = ytd.title
             if vformat == 'audio':
+                path_ = __os.path.join(takenPath, 'Music')
+                if tempPath != False:
+                    path_ = __os.path.join(path_, tempPath)
                 if kargs.get('type'):
-                    result = __checkExistence(video_title, takenPath, get='playlist')
+                    result = __checkExistence(video_title, path_, get='playlist')
                 else:
-                    result = __checkExistence(video_title, takenPath)
+                    result = __checkExistence(video_title, path_)
                 if result == True:
                     print("Audio \"{}\"\nAlready Exist in \"{}\\Music\"\nTry Changing Path, if you wanna download anyway".format(video_title, takenPath))
                     return False
                 elif result == False:
                     print("Downloading Audio {}.mp3\n".format(video_title), end='')
-                    cb = ytd.streams.get_audio_only().download(f"{takenPath}\\Music")
+                    cb = ytd.streams.get_audio_only().download(f"{path_}\\Music")
                     ytd.register_on_complete_callback(__rename(cb))
                     return True
                 else:
                     return result
             else:
-                print("Downloading Video {}.mp4\n".format(ytd.title), end='')
-                ytd.streams.get_highest_resolution().download(f"{takenPath}\\Videos")
-                ytd.register_on_complete_callback(__on_complete())
-                return True
+                path_ = __os.path.join(takenPath, 'Videos')
+                if tempPath != False:
+                    path_ = __os.path.join(path_, tempPath)
+                    
+                if kargs.get('type'):
+                    result = __checkExistence(video_title, path_, get='playlist')
+                else:
+                    result = __checkExistence(video_title, path_)
+                if result == True:
+                    print("Video \"{}\"\nAlready Exist in \"{}\\Videos\"\nTry Changing Path, if you wanna download anyway".format(video_title, path_))
+                    return False
+                elif result == False:
+                    print("Downloading Video {}.mp4\n".format(ytd.title), end='')
+
+                    ytd.streams.get_highest_resolution().download(path_)
+                    ytd.register_on_complete_callback(__on_complete())
+                    return True
+                else:
+                    return result
         else:
             try:
                 raise VideoFormatError("Only Audio or Video format allowed")
@@ -197,10 +216,11 @@ def ytdownload(video_url, vformat, **kargs):
                     print(e)
                     return False
         elif video_src_type == 'playlist':
-            get_url = __Playlist(video_url).video_urls
+            plist = __Playlist(video_url)
+            get_url = plist.video_urls
             if vformat == 'video':
                 for item in get_url:
-                    if __downloader(item, 'video', path=path):
+                    if __downloader(item, 'video', path=path, tempPath = plist.title):
                         pass
                     else:
                         return False
@@ -209,7 +229,7 @@ def ytdownload(video_url, vformat, **kargs):
             elif vformat == 'audio':
                 collection = []
                 for item in get_url:
-                    result = __downloader(item, 'audio', path=path)
+                    result = __downloader(item, 'audio', path=path, tempPath = plist.title)
                     if result:
                         pass
                     else:

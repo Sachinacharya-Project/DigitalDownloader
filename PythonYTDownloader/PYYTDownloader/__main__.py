@@ -1,3 +1,5 @@
+from webbrowser import get
+from winsound import PlaySound
 from pytube import YouTube, Playlist
 from pytube.cli import on_progress
 import os, requests, argparse
@@ -77,11 +79,13 @@ def rename(direc):
         os.rename(source, path)
         on_complete()
     except FileExistsError:
+        os.remove(source)
         print("\nFile Already Exist")
 def downloader(video_url, vformat, **kargs):
     takenPath = kargs.get('path', '__default')
     if takenPath == '__default':
         takenPath = os.environ.get('USERPROFILE')
+    tempPath = kargs.get('tempPath', False)
     if video_url == '':
         try:
             raise VideoUrlException("Video URL cannot be Empty String")
@@ -100,25 +104,44 @@ def downloader(video_url, vformat, **kargs):
             ytd = YouTube(video_url, on_progress_callback=on_progress)
             video_title = ytd.title
             if vformat == 'audio':
+                path_ = os.path.join(takenPath, 'Music')
+                if tempPath != False:
+                    path_ = os.path.join(path_, tempPath)
                 if kargs.get('type'):
-                    result = checkExistence(video_title, takenPath, get='playlist')
+                    result = checkExistence(video_title, path_, get='playlist')
                 else:
-                    result = checkExistence(video_title, takenPath)
+                    result = checkExistence(video_title, path_)
                 if result == True:
-                    print("Audio \"{}\"\nAlready Exist in \"{}\\Music\"\nTry Changing Path, if you wanna download anyway".format(video_title, takenPath))
+                    print("Audio \"{}\"\nAlready Exist in \"{}\\Music\"\nTry Changing Path, if you wanna download anyway".format(video_title, path_))
                     return False
                 elif result == False:
                     print("Downloading Audio {}.mp3\n".format(video_title), end='')
-                    cb = ytd.streams.get_audio_only().download(f"{takenPath}\\Music")
+   
+                    cb = ytd.streams.get_audio_only().download(path_)
                     ytd.register_on_complete_callback(rename(cb))
                     return True
                 else:
                     return result
             else:
-                print("Downloading Video {}.mp4\n".format(ytd.title), end='')
-                ytd.streams.get_highest_resolution().download(f"{takenPath}\\Videos")
-                ytd.register_on_complete_callback(on_complete())
-                return True
+                path_ = os.path.join(takenPath, 'Videos')
+                if tempPath != False:
+                    path_ = os.path.join(path_, tempPath)
+                    
+                if kargs.get('type'):
+                    result = checkExistence(video_title, path_, get='playlist')
+                else:
+                    result = checkExistence(video_title, path_)
+                if result == True:
+                    print("Video \"{}\"\nAlready Exist in \"{}\\Videos\"\nTry Changing Path, if you wanna download anyway".format(video_title, path_))
+                    return False
+                elif result == False:
+                    print("Downloading Video {}.mp4\n".format(ytd.title), end='')
+
+                    ytd.streams.get_highest_resolution().download(path_)
+                    ytd.register_on_complete_callback(on_complete())
+                    return True
+                else:
+                    return result
         else:
             try:
                 raise VideoFormatError("Only Audio or Video format allowed")
@@ -197,11 +220,12 @@ def ytdownload(video_url, vformat, **kargs):
                     print(e)
                     return False
         elif video_src_type == 'playlist':
-            get_url = Playlist(video_url).video_urls
+            plist = Playlist(video_url)
+            get_url = plist.video_urls
             if vformat == 'video':
                 for item in get_url:
-                    if downloader(item, 'video', path=path):
-                        pass
+                    if downloader(item, 'video', path=path, tempPath = plist.title):
+                        return True
                     else:
                         return False
                 else:
@@ -209,9 +233,9 @@ def ytdownload(video_url, vformat, **kargs):
             elif vformat == 'audio':
                 collection = []
                 for item in get_url:
-                    result = downloader(item, 'audio', path=path)
+                    result = downloader(item, 'audio', path=path, tempPath = plist.title)
                     if result:
-                        pass
+                        return True
                     else:
                         collection.append(result)
                 for item in collection:
@@ -264,33 +288,9 @@ def main():
         print('Check {}\\Music'.format(os.environ.get('USERPROFILE')))
     else:
         print('Check {}\\Videos'.format(os.environ.get('USERPROFILE')))
-    if ytdownload(url, form, path=path) ==True:
+    if ytdownload(url, form, path=path) == True:
         print('Downloaded Successfully ')
     else:
         print('Error Occured! Cannot be downloaded')
 if __name__ == '__main__':
     main()
-    # parsers.add_argument('-h', action='store_true', dest="""
-    # Positional Arguments
-    #     video_url (required):
-    #         URL of YouTube Video to be download.
-    #         It may either be Title of video or URL of single video or playlist of video
-    #     vformat (required):
-    #         it a format in which video is to be downloaded
-    #         'audio' for Music and 'video' for Videos
-    # Optional Argument
-    #     path (Optional)
-    #         usage
-    #             --path [PATH]
-    #         Descriptions
-    #             It a path where video or audio is to be downlaoded
-    #             Defaults:
-    #                 {}\\Music for Musics
-    #                 {}\\Videos for video
-    #             eg. --path='[YOUR PATH]'
-    #     h, help (Optional)
-    #         usage
-    #             -h, --help
-    #         Descriptions:
-    #             Display Help Text
-    # """)

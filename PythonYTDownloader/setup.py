@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 description_long = """
 This Program is Capable of Downloading Videos From YouTube.
