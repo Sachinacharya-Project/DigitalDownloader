@@ -4,9 +4,12 @@ This Small package download video and audio from YouTube with Given URL or Given
 **We can download Video or Audio from Very Famous Platform YouTube. This Package is capable of downloading Video(S) or Audio(S) From YouTube PlayList or Individual Video with Just a Video URL or With Just the Name or say, title of a Video**
 ## Packages Used
 *If you wanna download package explicitly then use following command*
-````
+````cmd
 pip install pytube
 pip install requests
+````
+````cmd
+pip install git+https://github.com/nficano/pytube.git
 ````
 ***or** you can use **requirements.txt** file*
 ````cmd
@@ -15,7 +18,7 @@ pip install -r requirements.txt
 ## USAGE
 *Method Used to Download Video(s) or Audio(s).*
 *First of all Import "ytdownload" from Package and use as given syntax:*
-````
+````python
 ytdownload(video_url, vformat, [optional])
 ````
 ## Parameters
