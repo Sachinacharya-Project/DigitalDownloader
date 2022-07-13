@@ -6,6 +6,12 @@ This Program simply download Profile of Public Account like Pictures(inc. Displa
 pip install instaloader
 ````
 
+or 
+
+````
+pip install -r requirements.txt
+````
+
 ## CommandLine
 
 1. Anonymously Downloading  
