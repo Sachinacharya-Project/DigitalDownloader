@@ -1,3 +1,5 @@
+# These are the required packages - Install them if not already
+
 instaloader
 colorama
 pwinput
